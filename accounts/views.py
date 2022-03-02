@@ -44,8 +44,21 @@ def orderCreate(request):
         if form.is_valid():
             form.save()
             return redirect('/')
-            
+
     return render(request,'accounts/order_form.html',{
         'form':form
         
+    })
+
+def orderUpdate(request,orderId):
+    order=Order.objects.get(id=orderId)
+    form=OrderForm(instance=order)
+    if request.method=="POST":
+        form=OrderForm(request.POST,instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    return render(request,'accounts/order_form.html',{
+        'form':form
     })
