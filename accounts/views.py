@@ -7,6 +7,7 @@ from accounts.models import *
 from accounts.forms import *
 from django.forms import inlineformset_factory
 from .filters import *
+from django.contrib.auth.forms import UserCreationForm
 def customer(request,id):
     customer=Customer.objects.get(id=id)
     orders=customer.order_set.all()
@@ -78,3 +79,15 @@ def orderDelete(request,orderId):
     return render(request,'accounts/order_delete.html',{
         'order':order
     })
+
+
+def register(request):
+    form=RegisterForm()
+    if request.method=="POST":
+        form=RegisterForm(request.POST)
+        if form.is_valid():
+            form.save();
+            return redirect('/')
+    return render(request,'accounts/register.html',{
+        'form':form
+    });
